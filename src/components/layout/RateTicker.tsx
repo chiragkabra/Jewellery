@@ -15,7 +15,7 @@ export function RateTicker() {
   const data = useRatesData();
   const rates = data?.rates ?? FALLBACK.map((r) => ({ ...r, value: null, change: null }));
   const time = data
-    ? new Date(data.updatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
+    ? new Date(data.updatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
     : "--:--";
 
   const items = (
@@ -58,3 +58,4 @@ export function RateTicker() {
     </div>
   );
 }
+

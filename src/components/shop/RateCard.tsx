@@ -35,7 +35,7 @@ export function RateCard({ material }: { material: Material }) {
   const rates = keys.map(
     (k) => data?.rates.find((r) => r.key === k) ?? { key: k, label: k, unit: "/g", value: null, change: null }
   );
-  const time = data ? new Date(data.updatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "--:--";
+  const time = data ? new Date(data.updatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) : "--:--";
 
   return (
     <div className="border border-line bg-ivory p-6 sm:p-8">
@@ -66,3 +66,4 @@ export function RateCard({ material }: { material: Material }) {
     </div>
   );
 }
+

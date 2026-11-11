@@ -1,4 +1,5 @@
 "use client";
+import { WhatsAppConsent } from "@/components/forms/WhatsAppConsent";
 
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
@@ -20,6 +21,7 @@ export function TradeEnquiryForm({ dark }: { dark?: boolean }) {
   const [material, setMaterial] = useState(lens === "all" ? "" : lens);
   const [picked, setPicked] = useState<string[]>([]);
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errorMessage,setErrorMessage] = useState("");
   const [ref, setRef] = useState("");
 
   useEffect(() => {
@@ -35,7 +37,8 @@ export function TradeEnquiryForm({ dark }: { dark?: boolean }) {
     try {
       setRef(await submitForm("trade-enquiry", { ...data, interests: picked }));
       setState("done");
-    } catch {
+    } catch (error) {
+      setErrorMessage((error as Error).message);
       setState("error");
     }
   };
@@ -126,6 +129,8 @@ export function TradeEnquiryForm({ dark }: { dark?: boolean }) {
         <label htmlFor="te-message" className={label}>Anything else</label>
         <textarea id="te-message" name="message" rows={3} className={cn(field, "py-3")} />
       </div>
+      <label className="sm:col-span-2"><span className={label}>Phone / WhatsApp (with country code)</span><input name="phone" type="tel" className={field} placeholder="+91 98765 43210" /></label>
+      <WhatsAppConsent dark={dark} />
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
         <p className={cn("text-[13px]", dark ? "text-ivory/50" : "text-muted")}>
           We reply to trade enquiries within [XX] working hours.
@@ -136,9 +141,11 @@ export function TradeEnquiryForm({ dark }: { dark?: boolean }) {
       </div>
       {state === "error" && (
         <p role="alert" className="text-[13px] text-[#C26A5C] sm:col-span-2">
-          Something went wrong. Please try again.
+          {errorMessage || "Something went wrong. Please try again."}
         </p>
       )}
     </form>
   );
 }
+
+

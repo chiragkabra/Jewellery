@@ -6,6 +6,7 @@ import { LensProvider } from "./LensContext";
 import { ModeProvider } from "./ModeContext";
 import { CartProvider } from "./CartContext";
 import { RatesProvider } from "./RatesContext";
+import { CatalogueProvider } from "./CatalogueContext";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -13,10 +14,11 @@ export function Providers({ children }: { children: ReactNode }) {
       <LensProvider>
         <ModeProvider>
           <CartProvider>
-            <RatesProvider>{children}</RatesProvider>
+            <RatesProvider><CatalogueProvider>{children}</CatalogueProvider></RatesProvider>
           </CartProvider>
         </ModeProvider>
       </LensProvider>
     </MotionConfig>
   );
 }
+

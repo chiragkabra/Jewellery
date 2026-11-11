@@ -4,3 +4,11 @@ out
 .env*.local
 *.tsbuildinfo
 .DS_Store
+
+data/
+backups/
+.env
+.env.local
+SETUP.local.md
+test-results/
+.npm-cache/

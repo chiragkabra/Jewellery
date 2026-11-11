@@ -235,7 +235,7 @@ function FilterPanel({
         value={filters.maxPrice}
         onChange={(v) => setFilters((f) => ({ ...f, maxPrice: v }))}
         format={(v) => `Up to ₹${v.toLocaleString("en-IN")}`}
-        emptyNote="Add prices in src/data/products.ts to enable."
+        emptyNote="Prices are available on request."
       />
       <Range
         title="Weight"
@@ -243,7 +243,7 @@ function FilterPanel({
         value={filters.maxWeight}
         onChange={(v) => setFilters((f) => ({ ...f, maxWeight: v }))}
         format={(v) => `Up to ${v} g`}
-        emptyNote="Add weights in src/data/products.ts to enable."
+        emptyNote="Contact us for weight details."
       />
     </div>
   );
@@ -395,3 +395,4 @@ function BottomSheet({
     </AnimatePresence>
   );
 }
+

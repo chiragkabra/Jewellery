@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node --env-file-if-exists=.env.local scripts/with-whatsapp-worker.mjs dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --env-file-if-exists=.env.local scripts/with-whatsapp-worker.mjs start",
     "typecheck": "tsc --noEmit",
-    "photos": "python3 scripts/download-photos.py"
+    "photos": "python3 scripts/download-photos.py",
+    "admin:create": "node --env-file-if-exists=.env.local scripts/create-admin.mjs",
+    "db:backup": "node --env-file-if-exists=.env.local scripts/backup.mjs",
+    "test:backend": "node scripts/test-backend.mjs",
+    "whatsapp:worker": "node --env-file-if-exists=.env.local scripts/whatsapp-worker.mjs",
+    "test:whatsapp": "node scripts/test-whatsapp.mjs",
+    "whatsapp:check": "node --env-file-if-exists=.env.local scripts/check-whatsapp-account.mjs",
+    "whatsapp:import": "node scripts/import-whatsapp-credentials.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
@@ -32,5 +39,8 @@
     "postcss": "^8.5.31",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0 <25 || >=26.0.0"
   }
 }

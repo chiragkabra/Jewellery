@@ -1,4 +1,5 @@
 "use client";
+import { WhatsAppConsent } from "@/components/forms/WhatsAppConsent";
 
 import { useState } from "react";
 import { Check } from "lucide-react";
@@ -6,6 +7,7 @@ import { submitForm } from "@/lib/submit";
 
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errorMessage,setErrorMessage] = useState("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,7 +16,8 @@ export function ContactForm() {
     try {
       await submitForm("contact", data);
       setState("done");
-    } catch {
+    } catch (error) {
+      setErrorMessage((error as Error).message);
       setState("error");
     }
   };
@@ -55,12 +58,15 @@ export function ContactForm() {
         <label htmlFor="c-message" className="field-label">Message</label>
         <textarea id="c-message" name="message" rows={5} required className="field py-3" />
       </div>
+      <WhatsAppConsent />
       <div className="sm:col-span-2">
         <button type="submit" className="btn-primary" disabled={state === "sending"}>
           {state === "sending" ? "Sending…" : "Send message"}
         </button>
-        {state === "error" && <p role="alert" className="mt-3 text-[13px] text-[#9A3B2E]">Something went wrong. Please try again.</p>}
+        {state === "error" && <p role="alert" className="mt-3 text-[13px] text-[#9A3B2E]">{errorMessage || "Something went wrong. Please try again."}</p>}
       </div>
     </form>
   );
 }
+
+

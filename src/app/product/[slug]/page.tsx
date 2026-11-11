@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, productBySlug, relatedProducts } from "@/data/products";
+import { catalogue } from "@/lib/server/business";
+export const dynamic = "force-dynamic";
+const productBySlug = (slug: string) => catalogue().find(p => p.slug === slug);
 import { materialByKey } from "@/data/materials";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductDetail } from "@/components/shop/ProductDetail";
@@ -9,9 +11,6 @@ import { RelatedProducts } from "@/components/shop/RelatedProducts";
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const p = productBySlug((await params).slug);
@@ -43,7 +42,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <ProductDetail product={product} />
         </div>
       </section>
-      <RelatedProducts products={relatedProducts(product)} />
+      <RelatedProducts products={catalogue().filter(p => p.slug !== product.slug && (p.material === product.material || p.category === product.category)).slice(0,4)} />
     </div>
   );
 }
+

@@ -4,13 +4,14 @@ import { useMemo, useState, useCallback } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
-import { products } from "@/data/products";
+import { useCatalogue } from "@/context/CatalogueContext";
 import { materials, materialByKey } from "@/data/materials";
 import { categoryName } from "@/data/categories";
 import { useModal } from "@/lib/hooks";
 import { Media } from "@/components/ui/Media";
 
 export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const products = useCatalogue();
   const [q, setQ] = useState("");
   const close = useCallback(() => {
     setQ("");
@@ -29,7 +30,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
           .includes(t)
       )
       .slice(0, 8);
-  }, [q]);
+  }, [q, products]);
 
   return (
     <AnimatePresence>
@@ -91,3 +92,4 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
     </AnimatePresence>
   );
 }
+

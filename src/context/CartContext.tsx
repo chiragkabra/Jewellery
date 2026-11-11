@@ -26,6 +26,7 @@ interface CartCtx {
   updateQty: (list: "bag" | "quote", index: number, qty: number) => void;
   remove: (list: "bag" | "quote", index: number) => void;
   clearQuote: () => void;
+  clearBag: () => void;
 }
 
 const Ctx = createContext<CartCtx | null>(null);
@@ -91,6 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       updateQty,
       remove,
       clearQuote: () => setQuote([]),
+      clearBag: () => setBag([]),
     }),
     [bag, quote, drawer, addToBag, addToQuote, updateQty, remove]
   );
@@ -103,3 +105,4 @@ export function useCart() {
   if (!ctx) throw new Error("useCart must be used inside CartProvider");
   return ctx;
 }
+

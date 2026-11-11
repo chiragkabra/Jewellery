@@ -1,4 +1,5 @@
 "use client";
+import { WhatsAppConsent } from "@/components/forms/WhatsAppConsent";
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
@@ -130,7 +131,7 @@ function Empty({ text }: { text: string }) {
 }
 
 function BagView() {
-  const { bag } = useCart();
+  const { bag, closeDrawer, openDrawer, addToQuote } = useCart();
   if (!bag.length) return <Empty text="Your bag is empty." />;
   return (
     <div>
@@ -138,14 +139,13 @@ function BagView() {
       <div className="space-y-4 border-t border-line px-6 py-6">
         <div className="flex justify-between text-[15px]">
           <span className="text-muted">Subtotal</span>
-          <span>[PRICE]</span>
+          <span>Calculated at checkout</span>
         </div>
         <p className="text-[13px] text-muted">
-          Final price is calculated at the metal rate on the day of purchase. GST and insured shipping shown at checkout.
+          Checkout checks current prices and stock. For pieces without a confirmed price, please request a quote.
         </p>
-        <button className="btn-primary w-full" disabled title="Checkout is not connected yet">
-          Checkout [coming soon]
-        </button>
+        <Link href="/checkout" onClick={closeDrawer} className="btn-primary w-full">Continue to checkout</Link>
+        <button className="btn-secondary w-full" onClick={() => { for (const item of bag) addToQuote(item,item.qty); openDrawer("quote"); }}>Request a quote instead</button>
       </div>
     </div>
   );
@@ -154,6 +154,7 @@ function BagView() {
 function QuoteView() {
   const { quote, clearQuote } = useCart();
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errorMessage,setErrorMessage] = useState("");
   const [ref, setRef] = useState("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -165,7 +166,8 @@ function QuoteView() {
       setRef(r);
       setState("done");
       clearQuote();
-    } catch {
+    } catch (error) {
+      setErrorMessage((error as Error).message);
       setState("error");
     }
   };
@@ -175,7 +177,7 @@ function QuoteView() {
       <div className="px-6 py-16 text-center">
         <Check className="mx-auto text-accent" size={32} strokeWidth={1.5} />
         <p className="mt-4 font-display text-[28px]">Quote request received.</p>
-        <p className="mt-3 text-muted">Reference {ref}. Our trade desk will reply within [XX] working hours.</p>
+        <p className="mt-3 text-muted">Reference {ref}. Our trade desk will contact you about your selection.</p>
       </div>
     );
 
@@ -205,15 +207,19 @@ function QuoteView() {
           className="field py-3"
           aria-label="Message"
         />
+        <WhatsAppConsent />
         <button type="submit" className="btn-primary w-full" disabled={state === "sending"}>
           {state === "sending" ? "Sending…" : "Send quote request"}
         </button>
         {state === "error" && (
           <p role="alert" className="text-[13px] text-[#9A3B2E]">
-            Something went wrong. Please try again.
+            {errorMessage || "Something went wrong. Please try again."}
           </p>
         )}
       </form>
     </div>
   );
 }
+
+
+

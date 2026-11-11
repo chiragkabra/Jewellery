@@ -4,14 +4,7 @@ import "./globals.css";
 import { site } from "@/data/site";
 import { Providers } from "@/context/Providers";
 import { lensBootScript } from "@/context/LensContext";
-import { UtilityBar } from "@/components/layout/UtilityBar";
-import { RateTicker } from "@/components/layout/RateTicker";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { LensSwitcher } from "@/components/layout/LensSwitcher";
-import { FloatingActions } from "@/components/layout/FloatingActions";
-import { CartDrawer } from "@/components/layout/CartDrawer";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 
 const display = Bodoni_Moda({
   subsets: ["latin"],
@@ -45,17 +38,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to content
           </a>
-          <SmoothScroll />
-          <UtilityBar />
-          <RateTicker />
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-          <LensSwitcher />
-          <FloatingActions />
-          <CartDrawer />
+          <SiteChrome>{children}</SiteChrome>
         </Providers>
       </body>
     </html>
   );
 }
+

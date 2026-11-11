@@ -1,4 +1,5 @@
 "use client";
+import { WhatsAppConsent } from "@/components/forms/WhatsAppConsent";
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -26,6 +27,7 @@ export function TradeApplicationForm() {
   const [data, setData] = useState<Data>({ materials: [], categories: [] });
   const [files, setFiles] = useState<Record<string, File | null>>({});
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [errorMessage,setErrorMessage] = useState("");
   const [ref, setRef] = useState("");
   const [stepError, setStepError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -53,11 +55,16 @@ export function TradeApplicationForm() {
     if (step < steps.length - 1) return go(step + 1);
     setState("sending");
     try {
-      // File uploads aren't stored yet — only file names are sent. Connect storage in /api/enquiry.
-      const documents = Object.fromEntries(Object.entries(files).map(([k, f]) => [k, f?.name ?? null]));
-      setRef(await submitForm("trade-application", { ...data, documents }));
+      const form = new FormData();
+      form.set("payload", JSON.stringify({ form: "trade-application", ...data }));
+      for (const [key, file] of Object.entries(files)) if (file) form.append(key, file);
+      const response = await fetch("/api/enquiry", { method: "POST", body: form });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Submission failed");
+      setRef(result.reference);
       setState("done");
-    } catch {
+    } catch (error) {
+      setErrorMessage((error as Error).message);
       setState("error");
     }
   };
@@ -68,7 +75,7 @@ export function TradeApplicationForm() {
         <Check size={36} strokeWidth={1.5} className="mx-auto text-accent" />
         <p className="mt-4 font-display text-[32px]">Application received.</p>
         <p className="mt-3 text-muted">
-          Reference {ref}. We review trade applications within [XX] working days and will email your login details.
+          Reference {ref}. Our trade desk will review your application and contact you about account access.
         </p>
       </div>
     );
@@ -198,7 +205,7 @@ export function TradeApplicationForm() {
             {step === 2 && (
               <>
                 <p className="text-[14px] text-muted sm:col-span-2">
-                  PDF, JPG or PNG up to [XX] MB each. You can also email documents to our trade desk later.
+                  PDF, JPG or PNG up to 5 MB each. You can also email documents to our trade desk later.
                 </p>
                 {docSlots.map((d) => {
                   const f = files[d.key];
@@ -250,6 +257,7 @@ export function TradeApplicationForm() {
                     </div>
                   ))}
                 </dl>
+                <div className="mt-6"><WhatsAppConsent checked={val("whatsappConsent") === "yes"} onChange={checked=>set("whatsappConsent",checked?"yes":"no")} /></div>
                 <label className="mt-6 flex items-start gap-3 text-[14px]">
                   <input type="checkbox" required className="mt-1 h-4 w-4 accent-[var(--ink)]" />
                   I confirm these details are correct and agree to the trade terms [link to terms].
@@ -279,7 +287,10 @@ export function TradeApplicationForm() {
         </button>
       </div>
       {stepError && <p role="alert" className="mt-4 text-[13px] text-[#9A3B2E]">{stepError}</p>}
-      {state === "error" && <p role="alert" className="mt-4 text-[13px] text-[#9A3B2E]">Something went wrong. Please try again.</p>}
+      {state === "error" && <p role="alert" className="mt-4 text-[13px] text-[#9A3B2E]">{errorMessage || "Something went wrong. Please try again."}</p>}
     </form>
   );
 }
+
+
+

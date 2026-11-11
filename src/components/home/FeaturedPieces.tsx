@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { products } from "@/data/products";
+import { useCatalogue } from "@/context/CatalogueContext";
 import { useLens } from "@/context/LensContext";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCard } from "@/components/shop/ProductCard";
@@ -20,6 +20,7 @@ const tabs: { value: Lens; label: string }[] = [
 ];
 
 export function FeaturedPieces() {
+  const products = useCatalogue();
   const { lens } = useLens();
   const [tab, setTab] = useState<Lens>(lens);
   const [quick, setQuick] = useState<Product | null>(null);
@@ -87,3 +88,4 @@ export function FeaturedPieces() {
     </section>
   );
 }
+
