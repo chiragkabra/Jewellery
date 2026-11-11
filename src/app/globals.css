@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   Design tokens
+   Hex values are the source of truth; *-rgb channels feed Tailwind
+   so utilities like bg-ink/80 work.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --ivory: #fbfaf7;
+  --sand: #f3efe7;
+  --line: #e6e1d7;
+  --ink: #17161a;
+  --muted: #5f5a52;
+
+  --ivory-rgb: 251 250 247;
+  --sand-rgb: 243 239 231;
+  --line-rgb: 230 225 215;
+  --ink-rgb: 23 22 26;
+  --muted-rgb: 95 90 82;
+
+  --gold: #8a6528;
+  --gold-light: #d9b36c;
+  --silver: #4f5862;
+  --silver-light: #c9ced4;
+  --diamond: #2d5873;
+  --diamond-light: #9cc3dd;
+
+  /* "All" lens: a neutral house bronze (6:1 on ivory). */
+  --accent: #6e5e4a;
+  --accent-light: #d8cbb6;
+  --accent-rgb: 110 94 74;
+  --accent-light-rgb: 216 203 182;
+
+  --header-h: 76px;
+}
+
+/* The material lens. Works on <html> (whole site) or any element (scoped tint). */
+[data-material="all"] {
+  --accent: #6e5e4a;
+  --accent-light: #d8cbb6;
+  --accent-rgb: 110 94 74;
+  --accent-light-rgb: 216 203 182;
+}
+[data-material="gold"] {
+  --accent: var(--gold);
+  --accent-light: var(--gold-light);
+  --accent-rgb: 138 101 40;
+  --accent-light-rgb: 217 179 108;
+}
+[data-material="silver"] {
+  --accent: var(--silver);
+  --accent-light: var(--silver-light);
+  --accent-rgb: 79 88 98;
+  --accent-light-rgb: 201 206 212;
+}
+[data-material="diamond"] {
+  --accent: var(--diamond);
+  --accent-light: var(--diamond-light);
+  --accent-rgb: 45 88 115;
+  --accent-light-rgb: 156 195 221;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  transition: background-color 0.4s ease;
+}
+
+::selection {
+  background: rgb(var(--accent-rgb) / 0.18);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  /* Accent swaps fade rather than snap when the lens changes. */
+  .text-accent,
+  .bg-accent,
+  .border-accent,
+  .text-accent-light,
+  .bg-accent-light {
+    transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-6;
+  }
+  .section {
+    @apply py-section-sm md:py-section;
+  }
+  .eyebrow {
+    @apply text-eyebrow font-semibold uppercase text-accent;
+  }
+  .display-1 {
+    @apply font-display text-[44px] leading-[0.98] tracking-display sm:text-[60px] lg:text-[72px] xl:text-[84px];
+  }
+  .display-2 {
+    @apply font-display text-[36px] leading-[1.02] tracking-display sm:text-[48px] lg:text-[60px];
+  }
+  .display-3 {
+    @apply font-display text-[26px] leading-[1.1] tracking-display sm:text-[32px];
+  }
+  .lede {
+    @apply text-[17px] leading-[1.65] text-muted sm:text-lede;
+  }
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 px-6 text-[13px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-ivory hover:bg-accent;
+  }
+  .btn-secondary {
+    @apply btn border border-ink text-ink hover:bg-ink hover:text-ivory;
+  }
+  .btn-light {
+    @apply btn bg-ivory text-ink hover:bg-accent-light;
+  }
+  .btn-outline-light {
+    @apply btn border border-ivory/60 text-ivory hover:bg-ivory hover:text-ink;
+  }
+  .link-underline {
+    @apply relative inline-flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.14em];
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-500 ease-lux;
+  }
+  .link-underline:hover::after {
+    @apply origin-left scale-x-100;
+  }
+  .field {
+    @apply min-h-[48px] w-full border border-line bg-ivory px-4 text-[15px] text-ink placeholder:text-muted/70 transition-colors focus:border-ink focus:outline-none;
+  }
+  .field-label {
+    @apply mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-muted;
+  }
+  .chip {
+    @apply inline-flex min-h-[32px] items-center border border-line px-3 text-[12px] font-medium tracking-[0.06em] text-muted;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
