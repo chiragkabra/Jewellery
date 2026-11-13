@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { materialBySlug } from "@/data/materials";
-import { catalogue } from "@/lib/server/business";
+import { catalogue } from "@/lib/server/python";
 export const dynamic = "force-dynamic";
 import { Media } from "@/components/ui/Media";
 import { Reveal } from "@/components/ui/Reveal";
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function CollectionPage({ params }: { params: Promise<Params> }) {
   const m = materialBySlug((await params).material);
   if (!m) notFound();
-  const list = catalogue().filter((p) => p.material === m.key);
+  const list = (await catalogue()).filter((p) => p.material === m.key);
 
   return (
     // Scoped tint: this page always wears its own material's accent.

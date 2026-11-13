@@ -1,12 +1,16 @@
 # LUMERA — storefront, backend and CRM
 
-Next.js 15 + React 19 + TypeScript. The existing jewellery storefront now uses a persistent SQLite database and a staff CRM at `/crm`. Requires Node.js 24+ (the `node:sqlite` API); no separate database server is needed for local use.
+Python 3.11+ / FastAPI backend, SQLite database and a Next.js 15 / React 19 / TypeScript frontend. Authentication, CRM APIs, checkout, stock, private uploads, WhatsApp, email and the automation scheduler run in Python. Node.js 24+ runs the frontend and a transport-only API proxy. No n8n or separate database server is required.
 
 ## Start locally
 
 ```powershell
 npm ci
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
+# Only for a NEW installation. Preserve an existing .env.local.
 Copy-Item .env.example .env.local
+$env:PYTHON_EXECUTABLE = "$PWD\.venv\Scripts\python.exe"
 npm run admin:create -- --email owner@example.com --name Owner
 npm run dev
 ```
@@ -18,13 +22,18 @@ npm run typecheck
 npm run build
 npm run test:backend
 npm run test:whatsapp
+npm run test:automations
 npm start
 npm run db:backup
 ```
 
-Build must finish before `test:backend` or `start`. The integration test starts a production server on port 3218 with a separate temporary database and synthetic data. It does not change your business database. Test results are written to `test-results/backend.json`.
+`npm run test:backend` runs the Python regression suite against fresh temporary databases; it does not need a frontend build. `npm run test:python` also produces coverage and JUnit reports. After `npm run build`, use `npm run test:integration` to start isolated production frontend/Python servers and verify the full HTTP flow. Tests mock external providers and never send real customer messages. See [Python setup, migration and test guide](docs/PYTHON-BACKEND.md).
 
 For local production-mode testing over HTTP, `.env.local` sets `COOKIE_SECURE=false`. For a deployed HTTPS site set `COOKIE_SECURE=true` and set `APP_URL` to the exact public origin.
+
+## Automation Center without n8n
+
+Open CRM → Automations to manage visual workflows, all/any conditions, drag-to-reorder actions, persistent delays, staff alerts, operations tasks, transactional email and WhatsApp handover. Four safe starter drafts are installed. Test without side effects, then publish Preview or Active versions; inspect runs and retry failed steps. See [Automation Center guide](docs/AUTOMATION-CENTER.md).
 
 ## What is connected
 
@@ -63,18 +72,19 @@ This requires filesystem access, resets only an existing admin and revokes its s
 
 See `.env.example`, [API reference](docs/API.md) and [project review + research](docs/PROJECT-REVIEW.md).
 
-The database schema is initialised automatically (`src/lib/server/db.ts`, schema version 1). The initial catalogue is inserted without overwriting existing records. Do not commit `data/`, `.env.local`, backups or local credentials. Product photos live under `public/images`; upload/copy your own photography there and reference `/images/...` in CRM. Existing photos are stock photography and must be replaced with your own pieces before commercial launch.
+The database schema is initialised automatically (`backend/schema.sql`, schema version 3). Existing Node-created databases, scrypt passwords and hashed sessions remain compatible. The Python seed catalogue (`backend/seeds/products.json`) is inserted only when a product ID does not exist. Do not commit `data/`, `.env.local`, backups or local credentials. Product photos live under `public/images`; upload/copy your own photography there and reference `/images/...` in CRM.
 
-Use a persistent Node.js service/container with a writable durable disk and an absolute `DATABASE_PATH`. This SQLite design targets a single shop and a single application instance. Ephemeral/serverless filesystems and horizontal replicas are not supported by this deployment model. For multiple stores or replicas, migrate persistence to a shared database and shared private object storage first.
+Run a persistent Python service and the Next.js frontend with a writable durable disk and an absolute `DATABASE_PATH`. `npm run dev` / `npm start` start both services; Python embeds the minute scheduler. This SQLite design targets a single shop and one Python service process. Ephemeral filesystems and horizontal replicas are not supported by this deployment model. For multiple stores/replicas, migrate persistence to a shared database and shared private object storage first.
 
 Keep a trusted reverse proxy in front of production. Enable `TRUST_PROXY=true` only if it overwrites `X-Forwarded-For`; otherwise rate limiting intentionally uses a shared client bucket. Session expiry is 8 hours. Use HTTPS, secure cookies and external backups.
 
 ## Existing storefront content
 
-Typed copy and branding remain in `src/data/`: `site.ts`, `materials.ts`, `categories.ts`, `home.ts`, `trade.ts`, `markets.ts`, `testimonials.ts`, and `navigation.ts`. The original `products.ts` now seeds the database once; subsequent edits belong in CRM. `site.ts` contains the GST setting and contact/company details. Fill all `[BRACKETS]` with verified business details. `/gold`, `/silver`, `/diamonds` rewrite to the collection pages. Material lens and retail/trade modes are preserved.
+Typed copy and branding remain in `src/data/`. The Python seed catalogue lives in `backend/seeds/products.json`; subsequent catalogue edits belong in CRM. The current 3% calculation is in `backend/business.py` and the displayed breakdown in `src/data/site.ts`; keep them consistent if the store's configured treatment changes. Fill all `[BRACKETS]` with verified business details. `/gold`, `/silver`, `/diamonds` retain their collection pages.
 
 ## Services still requiring business setup
 
 Online payments/refunds (e.g. Razorpay), email delivery, live rate-provider credentials, shipping/tracking, final business policies and deployment are not connected. WhatsApp flow is implemented in preview; actual delivery awaits Meta approval, credentials and activation. The current backend works locally with manual rates and manual payment; it is not a live payment gateway, accounting system, or complete jewellery ERP. The project review documents the remaining business modules and recommended order of work.
+
 
 

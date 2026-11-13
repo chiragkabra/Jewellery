@@ -1,6 +1,6 @@
 # Project review and jewellery CRM research
 
-Reviewed 11 November 2026. Source project: `D:\Jewellery\Jewellery`; implementation workspace: `C:\Users\ADMIN\Documents\ChatGPT\jewellery`.
+Reviewed 11 November 2026; backend migrated to Python on 13 November 2026. Source project: `D:\Jewellery\Jewellery`; implementation workspace: `C:\Users\ADMIN\Documents\ChatGPT\jewellery`. Current implementation: [Python backend guide](PYTHON-BACKEND.md).
 
 ## Aapke project mein pehle kya tha
 
@@ -41,13 +41,13 @@ Jewellery software providers describe inventory, client records, repairs and cus
 
 [Razorpay's webhook documentation](https://razorpay.com/docs/webhooks/validate-test) requires signature validation over the raw payload and explains duplicate event handling. A future integration should verify the signature, reconcile the provider order/amount, deduplicate events and mark paid only after a validated payment event. Client-side success alone must not mark an order paid.
 
-[Next.js authentication guidance](https://nextjs.org/docs/app/guides/authentication) treats route handlers as security boundaries, and [OWASP authorisation guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) distinguishes login from permission checks. The implementation checks staff/admin/trade permissions on the server for each protected handler. It uses opaque server sessions in HttpOnly cookies. [Node's SQLite documentation](https://nodejs.org/api/sqlite.html) supplies the built-in database API used here.
+[OWASP authorisation guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) distinguishes login from permission checks. Python checks staff/admin/trade permissions for each protected API. It uses opaque server sessions in HttpOnly cookies and [Python SQLite transactions](https://docs.python.org/3/library/sqlite3.html) for persistence. Next.js serves the frontend and forwards API transport.
 
 ## Launch dependencies and known limits
 
 1. Confirm brand legal name, address, actual phone/email, GST/IEC/certification statements, real product prices/weights/photography and the configured tax treatment. There are still original `[XX]`, `[PHONE]`, `[PRICE]` and policy placeholders where facts are unavailable.
 2. Confirm delivery, returns, cancellations, repair handling and the privacy policy; current legal pages are placeholders, not approved policies.
-3. Configure a persistent hosting service with HTTPS, secure cookies, a durable disk and tested backups. This implementation supports a single Node instance, not ephemeral serverless storage or multiple replicas.
+3. Configure persistent Python and frontend services with HTTPS, secure cookies, a durable disk and tested backups. This implementation supports one Python service process on local SQLite, not ephemeral storage or horizontal replicas.
 4. Activate the implemented WhatsApp integration after approval; connect actual payment, email, shipping and live-rate services when their business accounts are available. No external messages are sent by the current app.
 5. Stock is reserved on order placement until staff fulfil or cancel it. There is no automatic unpaid-order expiry; staff must review pending orders. Delivery is included in current checkout pricing; configure a shipping model before using paid shipping.
 6. Team creation is admin-only and manual. Forgotten admin passwords can be recovered with the filesystem CLI; there is no email reset, MFA, SSO or user deactivation interface yet.
@@ -58,7 +58,7 @@ Jewellery software providers describe inventory, client records, repairs and cus
 
 - `npm run typecheck`: passed.
 - `npm run build`: passed; all API, CRM, product and collection routes compile.
-- `npm run test:backend`: 35 integration check groups plus 27 WhatsApp service check groups, including authentication, permissions, enquiry persistence, uploads, stock transactions, checkout totals, idempotency, concurrent last-item orders, cancellation, private account history, session revocation, export, backup and storefront routes.
+- Python rewrite: **170 pytest cases and 10 production frontend/Python integration check groups passed**, with 89% backend line coverage. The earlier Node-only suites were retired with the old backend. See [Python test report](PYTHON-TEST-REPORT.md).
 - Browser review: account login, CRM dashboard, product editor and mobile layout checked. Screenshots saved under `artifacts/`.
 
 These checks validate local behaviour with synthetic data. They do not certify payment providers, email delivery, production hosting, actual business data or legal/tax compliance.
@@ -67,4 +67,7 @@ These checks validate local behaviour with synthetic data. They do not certify p
 
 
 Latest purchase/credential integration: see [purchase automation update](PURCHASE-AUTOMATION.md). A read-only Meta account check returned HTTP 200 for the supplied Test Number. Production customer delivery is still pending missing activation items; test messages have not been sent.
+
+
+13 November 2026: Custom Automation Center added without n8n. See [Automation Center](AUTOMATION-CENTER.md) for the visual builder, versioned publishing, conditions, delays, staff alerts/tasks, email queue, WhatsApp takeover and scheduler. Four starter workflows are disabled drafts by default.
 

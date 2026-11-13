@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { user } from "@/lib/server/auth";
+import { user } from "@/lib/server/python";
 import { Crm } from "@/components/crm/Crm";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Business Studio", robots: { index:false,follow:false } };

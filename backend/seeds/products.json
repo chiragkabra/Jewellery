@@ -1,0 +1,605 @@
+[
+  {
+    "slug": "aurelia-band-ring",
+    "name": "Aurelia Band Ring",
+    "material": "gold",
+    "category": "rings",
+    "variants": [
+      "22K",
+      "18K",
+      "14K"
+    ],
+    "metalColours": [
+      "Yellow",
+      "Rose",
+      "White"
+    ],
+    "sizes": [
+      "8",
+      "10",
+      "12",
+      "14",
+      "16",
+      "18"
+    ],
+    "images": [
+      "/images/products/aurelia-band-ring-1.jpg",
+      "/images/products/aurelia-band-ring-2.jpg",
+      "/images/products/aurelia-band-ring-3.jpg",
+      "/images/products/aurelia-band-ring-4.jpg"
+    ],
+    "description": "A softly domed band with a high-polish finish, made to be worn every day.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "temple-coin-necklace",
+    "name": "Temple Coin Necklace",
+    "material": "gold",
+    "category": "necklaces",
+    "variants": [
+      "22K"
+    ],
+    "metalColours": [
+      "Yellow"
+    ],
+    "images": [
+      "/images/products/temple-coin-necklace-1.jpg",
+      "/images/products/temple-coin-necklace-2.jpg",
+      "/images/products/temple-coin-necklace-3.jpg",
+      "/images/products/temple-coin-necklace-4.jpg"
+    ],
+    "description": "Hand-finished coins on a fine rope chain, inspired by temple jewellery.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true
+  },
+  {
+    "slug": "sol-hoop-earrings",
+    "name": "Sol Hoop Earrings",
+    "material": "gold",
+    "category": "earrings",
+    "variants": [
+      "18K",
+      "14K"
+    ],
+    "metalColours": [
+      "Yellow",
+      "Rose"
+    ],
+    "images": [
+      "/images/products/sol-hoop-earrings-1.jpg",
+      "/images/products/sol-hoop-earrings-2.jpg",
+      "/images/products/sol-hoop-earrings-3.jpg",
+      "/images/products/sol-hoop-earrings-4.jpg"
+    ],
+    "description": "Medium hoops with a hinged click-top closure.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "kara-bangle",
+    "name": "Kara Bangle",
+    "material": "gold",
+    "category": "bangles-bracelets",
+    "variants": [
+      "24K",
+      "22K"
+    ],
+    "metalColours": [
+      "Yellow"
+    ],
+    "sizes": [
+      "2.4",
+      "2.6",
+      "2.8"
+    ],
+    "images": [
+      "/images/products/kara-bangle-1.jpg",
+      "/images/products/kara-bangle-2.jpg",
+      "/images/products/kara-bangle-3.jpg",
+      "/images/products/kara-bangle-4.jpg"
+    ],
+    "description": "A solid round bangle with a hand-engraved border.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true
+  },
+  {
+    "slug": "laurel-pendant",
+    "name": "Laurel Pendant",
+    "material": "gold",
+    "category": "pendants",
+    "variants": [
+      "18K",
+      "14K"
+    ],
+    "metalColours": [
+      "Yellow",
+      "White"
+    ],
+    "images": [
+      "/images/products/laurel-pendant-1.jpg",
+      "/images/products/laurel-pendant-2.jpg",
+      "/images/products/laurel-pendant-3.jpg",
+      "/images/products/laurel-pendant-4.jpg"
+    ],
+    "description": "A small laurel leaf pendant on an adjustable cable chain.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "rope-chain",
+    "name": "Rope Chain",
+    "material": "gold",
+    "category": "chains",
+    "variants": [
+      "22K",
+      "18K"
+    ],
+    "metalColours": [
+      "Yellow"
+    ],
+    "sizes": [
+      "16\"",
+      "18\"",
+      "20\"",
+      "22\""
+    ],
+    "images": [
+      "/images/products/rope-chain-1.jpg",
+      "/images/products/rope-chain-2.jpg",
+      "/images/products/rope-chain-3.jpg",
+      "/images/products/rope-chain-4.jpg"
+    ],
+    "description": "A classic twisted rope chain with a lobster clasp.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "luna-stacking-ring",
+    "name": "Luna Stacking Ring",
+    "material": "silver",
+    "category": "rings",
+    "variants": [
+      "925",
+      "Rhodium",
+      "Vermeil"
+    ],
+    "metalColours": [
+      "Silver",
+      "Gold"
+    ],
+    "sizes": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "images": [
+      "/images/products/luna-stacking-ring-1.jpg",
+      "/images/products/luna-stacking-ring-2.jpg",
+      "/images/products/luna-stacking-ring-3.jpg",
+      "/images/products/luna-stacking-ring-4.jpg"
+    ],
+    "description": "A slim stacking ring with a hammered texture.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "riviera-collar",
+    "name": "Riviera Collar",
+    "material": "silver",
+    "category": "necklaces",
+    "variants": [
+      "Rhodium"
+    ],
+    "metalColours": [
+      "Silver"
+    ],
+    "images": [
+      "/images/products/riviera-collar-1.jpg",
+      "/images/products/riviera-collar-2.jpg",
+      "/images/products/riviera-collar-3.jpg",
+      "/images/products/riviera-collar-4.jpg"
+    ],
+    "description": "A flexible collar of linked bars with a bright rhodium finish.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "drift-drop-earrings",
+    "name": "Drift Drop Earrings",
+    "material": "silver",
+    "category": "earrings",
+    "variants": [
+      "925",
+      "Oxidised"
+    ],
+    "metalColours": [
+      "Silver"
+    ],
+    "images": [
+      "/images/products/drift-drop-earrings-1.jpg",
+      "/images/products/drift-drop-earrings-2.jpg",
+      "/images/products/drift-drop-earrings-3.jpg",
+      "/images/products/drift-drop-earrings-4.jpg"
+    ],
+    "description": "Long drops with an oxidised, hand-textured surface.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true
+  },
+  {
+    "slug": "cuff-bracelet",
+    "name": "Meridian Cuff",
+    "material": "silver",
+    "category": "bangles-bracelets",
+    "variants": [
+      "925",
+      "Vermeil"
+    ],
+    "metalColours": [
+      "Silver",
+      "Gold"
+    ],
+    "images": [
+      "/images/products/cuff-bracelet-1.jpg",
+      "/images/products/cuff-bracelet-2.jpg",
+      "/images/products/cuff-bracelet-3.jpg",
+      "/images/products/cuff-bracelet-4.jpg"
+    ],
+    "description": "An open cuff with a brushed outer face and polished edges.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "initial-pendant",
+    "name": "Initial Pendant",
+    "material": "silver",
+    "category": "pendants",
+    "variants": [
+      "925",
+      "Vermeil"
+    ],
+    "metalColours": [
+      "Silver",
+      "Gold"
+    ],
+    "images": [
+      "/images/products/initial-pendant-1.jpg",
+      "/images/products/initial-pendant-2.jpg",
+      "/images/products/initial-pendant-3.jpg",
+      "/images/products/initial-pendant-4.jpg"
+    ],
+    "description": "A personalised initial disc — a strong private-label favourite.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "box-chain",
+    "name": "Box Chain",
+    "material": "silver",
+    "category": "chains",
+    "variants": [
+      "925",
+      "Rhodium"
+    ],
+    "metalColours": [
+      "Silver"
+    ],
+    "sizes": [
+      "16\"",
+      "18\"",
+      "20\""
+    ],
+    "images": [
+      "/images/products/box-chain-1.jpg",
+      "/images/products/box-chain-2.jpg",
+      "/images/products/box-chain-3.jpg",
+      "/images/products/box-chain-4.jpg"
+    ],
+    "description": "A fine box chain, ready to pair with any pendant.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "solitaire-ring",
+    "name": "Classic Solitaire Ring",
+    "material": "diamond",
+    "category": "rings",
+    "variants": [
+      "Round",
+      "Oval",
+      "Emerald"
+    ],
+    "metalColours": [
+      "White",
+      "Yellow",
+      "Rose"
+    ],
+    "sizes": [
+      "8",
+      "10",
+      "12",
+      "14",
+      "16"
+    ],
+    "images": [
+      "/images/products/solitaire-ring-1.jpg",
+      "/images/products/solitaire-ring-2.jpg",
+      "/images/products/solitaire-ring-3.jpg",
+      "/images/products/solitaire-ring-4.jpg"
+    ],
+    "description": "A single certified diamond in a four-claw 18K setting.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true
+  },
+  {
+    "slug": "tennis-necklace",
+    "name": "Tennis Necklace",
+    "material": "diamond",
+    "category": "necklaces",
+    "variants": [
+      "Round"
+    ],
+    "metalColours": [
+      "White"
+    ],
+    "images": [
+      "/images/products/tennis-necklace-1.jpg",
+      "/images/products/tennis-necklace-2.jpg",
+      "/images/products/tennis-necklace-3.jpg",
+      "/images/products/tennis-necklace-4.jpg"
+    ],
+    "description": "A continuous line of round brilliants, each set by hand.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "pear-drop-studs",
+    "name": "Pear Drop Studs",
+    "material": "diamond",
+    "category": "earrings",
+    "variants": [
+      "Pear"
+    ],
+    "metalColours": [
+      "White",
+      "Yellow"
+    ],
+    "images": [
+      "/images/products/pear-drop-studs-1.jpg",
+      "/images/products/pear-drop-studs-2.jpg",
+      "/images/products/pear-drop-studs-3.jpg",
+      "/images/products/pear-drop-studs-4.jpg"
+    ],
+    "description": "Matched pear-shaped diamonds in a three-claw setting.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "eternity-bracelet",
+    "name": "Eternity Bracelet",
+    "material": "diamond",
+    "category": "bangles-bracelets",
+    "variants": [
+      "Round",
+      "Princess"
+    ],
+    "metalColours": [
+      "White",
+      "Rose"
+    ],
+    "images": [
+      "/images/products/eternity-bracelet-1.jpg",
+      "/images/products/eternity-bracelet-2.jpg",
+      "/images/products/eternity-bracelet-3.jpg",
+      "/images/products/eternity-bracelet-4.jpg"
+    ],
+    "description": "A flexible line bracelet with a hidden box clasp.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  },
+  {
+    "slug": "halo-pendant",
+    "name": "Halo Pendant",
+    "material": "diamond",
+    "category": "pendants",
+    "variants": [
+      "Cushion",
+      "Round"
+    ],
+    "metalColours": [
+      "White",
+      "Yellow"
+    ],
+    "images": [
+      "/images/products/halo-pendant-1.jpg",
+      "/images/products/halo-pendant-2.jpg",
+      "/images/products/halo-pendant-3.jpg",
+      "/images/products/halo-pendant-4.jpg"
+    ],
+    "description": "A centre stone framed by a halo of pavé diamonds.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    },
+    "featured": true
+  },
+  {
+    "slug": "diamond-station-chain",
+    "name": "Diamond Station Chain",
+    "material": "diamond",
+    "category": "chains",
+    "variants": [
+      "Round"
+    ],
+    "metalColours": [
+      "Yellow",
+      "White"
+    ],
+    "sizes": [
+      "16\"",
+      "18\""
+    ],
+    "images": [
+      "/images/products/diamond-station-chain-1.jpg",
+      "/images/products/diamond-station-chain-2.jpg",
+      "/images/products/diamond-station-chain-3.jpg",
+      "/images/products/diamond-station-chain-4.jpg"
+    ],
+    "description": "A fine cable chain with bezel-set diamonds spaced along its length.",
+    "price": null,
+    "weightGrams": null,
+    "makingChargePct": null,
+    "stoneValue": null,
+    "certificateNo": null,
+    "certificateUrl": null,
+    "trade": {
+      "moq": "[MOQ] pcs",
+      "leadTime": "[XX] days"
+    }
+  }
+]

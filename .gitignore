@@ -12,3 +12,9 @@ backups/
 SETUP.local.md
 test-results/
 .npm-cache/
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/

@@ -37,6 +37,6 @@ npm run whatsapp:import -- --credentials D:\Jewellery\cred
 npm run whatsapp:check
 ```
 
-The importer is repeatable and defaults to preview. The check performs a read-only request and writes a redacted report to `test-results/whatsapp-account-check.json`. There is no automatic test-message send. Replacing/importing a token does not approve a template, consent a customer or enable live sending.
+The Python importer is repeatable and defaults to preview. The Python account check performs a read-only request and prints only account HTTP status and selected account metadata. There is no automatic test-message send. Replacing/importing a token does not approve a template, consent a customer or enable live sending. Commands remain `npm run whatsapp:import -- --credentials <file>` and `npm run whatsapp:check`.
 
 See [WhatsApp activation guide](WHATSAPP.md) for deployment and webhook steps. Product prices/stock must be configured before real purchases can be accepted. Tests use isolated synthetic products/orders and a mocked messaging provider; no real customer messages are sent by the tests.

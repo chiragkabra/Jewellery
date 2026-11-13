@@ -1,6 +1,6 @@
 # Backend API
 
-All handlers run in the Node.js runtime. Responses use JSON except private attachment downloads and the CRM export. Errors have `{ "ok": false, "error": "..." }` with an appropriate 400/401/403/404/409/413/415/429/500 status. Successful reads send `Cache-Control: no-store`. Mutations reject cross-origin browser requests. No wildcard CORS is enabled.
+All business handlers run in Python/FastAPI (`backend/app.py`). The frontend has a transport-only catch-all proxy; it performs no business/database operations. Interactive API docs: `/api/docs`; health/runtime check: `/api/health`. Responses use JSON except private downloads. Errors have `{ "ok": false, "error": "..." }` and an appropriate HTTP status. Responses send `Cache-Control: no-store`. Mutations reject cross-origin requests. No wildcard CORS is enabled.
 
 ## Public
 
@@ -61,3 +61,7 @@ All business writes use prepared SQL parameters. Orders, stock reservation, canc
 See [WhatsApp API and activation guide](WHATSAPP.md). Public forms and checkout accept optional `whatsappConsent: "yes"` (or boolean true) with a valid explicit country-coded phone. Newsletter consent remains separate. Task status now also accepts `ready`; repair/custom-order tasks at that stage prepare the ready notification. Transactional WhatsApp outbox creation is committed alongside the business record. The minute dispatcher runs with the app launcher, using a secret-authenticated endpoint. Default preview mode never sends externally.
 
 Orders now accept `carrier`, `trackingNumber` and an optional credential-free HTTPS `trackingUrl` when updated by staff. Own-account responses include these fields. First payment recording sets `paidAt` and queues one purchase confirmation (name/reference/IST date). An unpaid order cannot be marked refunded, and a cancelled order cannot receive a newly recorded payment. Dispatch updates queue current tracking details; superseded details are held. Refund status updates do not execute a payment-provider refund. New appointment slots and linked trade account provisioning also prepare messages, without embedding account passwords.
+
+## Custom Automation Center
+
+See [Automation Center API and operating guide](AUTOMATION-CENTER.md). The visual builder persists versioned drafts, conditions, steps, schedules, runs and action outputs. The secret-authenticated unified worker is `/api/automations/run`. Default starter workflows are disabled drafts; explicit preview/active publication controls execution. Native WhatsApp ownership prevents duplicate sends. Staff tasks/alerts are internal app records; email and WhatsApp remain subject to independent live-provider configuration.

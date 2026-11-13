@@ -65,18 +65,18 @@ The dispatcher sends template messages to the fixed Meta Graph host. It does not
 
 ## Scheduler and recovery
 
-`npm run dev` and `npm start` run Next.js together with a minute worker. If no cron secret is configured, the launcher generates a random process-local secret and shares it only with its child server/worker. This supports preview locally without putting a secret in source code. For externally managed cron, configure a persistent secret.
+`npm run dev` and `npm start` run the frontend together with FastAPI. Python embeds a minute scheduler that processes the database directly. External HTTP cron requires a persistent 32+ character worker secret; the embedded scheduler does not require an HTTP secret.
 
 To manage the worker separately:
 
 ```powershell
 # Disable the bundled worker in the server process first.
-# WHATSAPP_WORKER_ENABLED=false
-npm run whatsapp:worker
-npm run whatsapp:worker -- --watch
+$env:AUTOMATION_WORKER_ENABLED = "false"
+python -m backend worker
+python -m backend worker --watch
 ```
 
-The worker calls `POST /api/whatsapp/run` with `Authorization: Bearer <WHATSAPP_CRON_SECRET>`. Run it each minute from your process manager or scheduler. Use `WHATSAPP_WORKER_URL` if the local listener differs from public `APP_URL`. Keep the server and worker running on the same persistent database deployment model. No Codex reminder/automation is required for the website scheduler.
+An external HTTP scheduler can call `POST /api/automations/run` with `Authorization: Bearer <AUTOMATION_CRON_SECRET or WHATSAPP_CRON_SECRET>` each minute. `/api/whatsapp/run` processes only WhatsApp. The Python CLI worker processes all queues directly; `WHATSAPP_WORKER_URL` is retired. Keep the service/worker on the same durable database. No n8n is required.
 
 Workers claim queue rows transactionally with a two-minute lease. HTTP 429 rejections get exponential backoff, bounded to five attempts. Permanent provider rejections are marked failed. A timeout, network disconnect, provider 5xx or expired lease may mean the provider accepted a message; these are marked **uncertain** and do not auto-retry. Reconcile in WhatsApp Manager first. A manual retry requires an explicit acknowledgement of duplicate-send risk and returns the record to preview. Valid signed delivery callbacks can resolve accepted messages, including callback correlation after an ambiguous send.
 
@@ -103,7 +103,7 @@ Database schema version 2 adds `wa_outbox`, `wa_consents`, `wa_inbox`, `wa_webho
 
 ## Verification and official references
 
-`npm run test:whatsapp` executes the actual TypeScript service with SQLite and an injected mock provider. `npm run test:backend` tests the real HTTP routes, including subscription verification, rejected forged signatures, worker authentication, role permissions and signed STOP callbacks. Tests never send external WhatsApp messages. Actual Meta account acceptance, template approval, billing/limits, webhook delivery and recipient delivery require a later live-account test.
+`npm run test:whatsapp` tests the actual Python service using SQLite and HTTPX mock providers. `npm run test:backend` covers FastAPI routes, subscription verification, rejected forged signatures, worker authentication, role permissions and signed STOP callbacks. `npm run test:integration` verifies the production frontend/Python proxy. Tests never send external WhatsApp messages. Actual account acceptance, template approval, billing/limits and recipient delivery need a live-account test after activation.
 
 References consulted: [Meta's official Cloud API collection](https://www.postman.com/meta/whatsapp-business-platform/documentation/wlk6lh4/whatsapp-cloud-api) and [Meta-hosted template parameter example](https://whatsapp.github.io/WhatsApp-Nodejs-SDK/api-reference/messages/template/). The latter SDK project is archived; this app uses direct Graph HTTP requests, not that SDK. Choose the supported Graph version from the active app dashboard at activation time.
 

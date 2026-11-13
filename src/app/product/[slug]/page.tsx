@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { catalogue } from "@/lib/server/business";
+import { catalogue } from "@/lib/server/python";
 export const dynamic = "force-dynamic";
-const productBySlug = (slug: string) => catalogue().find(p => p.slug === slug);
+const productBySlug = async (slug: string) => (await catalogue()).find(p => p.slug === slug);
 import { materialByKey } from "@/data/materials";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductDetail } from "@/components/shop/ProductDetail";
@@ -13,13 +13,13 @@ type Params = { slug: string };
 
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-  const p = productBySlug((await params).slug);
+  const p = await productBySlug((await params).slug);
   if (!p) return {};
   return { title: p.name, description: p.description };
 }
 
 export default async function ProductPage({ params }: { params: Promise<Params> }) {
-  const product = productBySlug((await params).slug);
+  const product = await productBySlug((await params).slug);
   if (!product) notFound();
   const m = materialByKey(product.material);
 
@@ -42,7 +42,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <ProductDetail product={product} />
         </div>
       </section>
-      <RelatedProducts products={catalogue().filter(p => p.slug !== product.slug && (p.material === product.material || p.category === product.category)).slice(0,4)} />
+      <RelatedProducts products={(await catalogue()).filter(p => p.slug !== product.slug && (p.material === product.material || p.category === product.category)).slice(0,4)} />
     </div>
   );
 }

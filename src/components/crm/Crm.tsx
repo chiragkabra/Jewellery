@@ -1,4 +1,5 @@
 "use client";
+import { AutomationPanel } from "./AutomationPanel";
 import { WhatsAppPanel } from "./WhatsAppPanel";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import { ArrowUpRight, Check, ChevronRight, Gem, LayoutDashboard, LogOut, Packag
 import styles from "./crm.module.css";
 type Row = Record<string, any>;
 type Field = { key: string; label: string; type?: string; options?: string[]; required?: boolean };
-const tabs = ["Overview", "Enquiries", "Customers", "Tasks", "Orders", "Products", "Rates", "WhatsApp", "Team", "Activity"];
+const tabs = ["Overview", "Enquiries", "Customers", "Tasks", "Orders", "Products", "Rates", "Automations", "WhatsApp", "Team", "Activity"];
 const resources: Record<string,string> = { Enquiries: "enquiries", Customers: "customers", Tasks: "tasks", Orders: "orders", Products: "products", Rates: "settings", Team: "users", Activity: "audit" };
 const money = (paise: number) => new Intl.NumberFormat("en-IN",{ style: "currency",currency: "INR",maximumFractionDigits: 2 }).format(paise / 100);
 const date = (value: string) => value ? new Date(value).toLocaleString("en-IN",{timeZone:"Asia/Kolkata",dateStyle:"medium",timeStyle:"short"}) : "—";
@@ -33,7 +34,7 @@ export function Crm({ name, role }: { name: string; role: string }) {
   const [busy,setBusy] = useState(false),[loading,setLoading] = useState(true),[error,setError] = useState(""),[notice,setNotice] = useState("");
   const load = useCallback(async () => {
     const version = ++loadVersion.current;
-    if(tab === "WhatsApp") {setLoading(false);return;}
+    if(tab === "WhatsApp" || tab === "Automations") {setLoading(false);return;}
     setLoading(true); setError("");
     try {
       const [dashboard, contacts, list] = await Promise.all([api("/api/crm/dashboard"),api("/api/crm/customers"),tab === "Overview" ? api("/api/crm/enquiries") : api(`/api/crm/${resources[tab]}`)]);
@@ -88,7 +89,7 @@ export function Crm({ name, role }: { name: string; role: string }) {
       <div className={styles.content}>
         <div className={styles.heading}><div><p className={styles.eyebrow}>YOUR BUSINESS, AT A GLANCE</p><h1>{tab === "Overview" ? "A little clarity. A lot of possibility." : tab}</h1><p>{tab === "Overview" ? "Every conversation, every piece, every next step — together." : `Manage your ${tab.toLowerCase()} in one place.`}</p></div><div className={styles.actions}>{role === "admin" && tab === "Overview" && <a className={styles.secondary} href="/api/crm/export">Export CRM</a>}{["Customers","Tasks","Products","Team"].includes(tab) && <button className={styles.primary} onClick={add}><Plus size={16}/> Add {tab === "Team" ? "user" : tab.slice(0,-1).toLowerCase()}</button>}</div></div>
         {error && <p role="alert" className={styles.error}>{error}</p>}{notice && <p role="status" className={styles.success}><Check size={16}/> {notice}</p>}
-        {tab === "WhatsApp" ? <WhatsAppPanel role={role}/> : loading ? <p className={styles.empty}>Loading workspace…</p> : <>
+        {tab === "Automations" ? <AutomationPanel role={role} openWhatsApp={()=>switchTab("WhatsApp")}/> : tab === "WhatsApp" ? <WhatsAppPanel role={role}/> : loading ? <p className={styles.empty}>Loading workspace…</p> : <>
           {tab === "Overview" && <><div className={styles.metrics}>{[["Customers",stats.customers,"Customer relationships"],["Open enquiries",stats.openEnquiries,"Conversations to move forward"],["Active orders",stats.openOrders,"Pieces on their way"],["Recorded paid sales",money(stats.paidPaise || 0),"Excludes cancelled orders"]].map(([label,value,detail])=><article key={label} className={styles.metric}><p>{label}</p><strong>{value}</strong><small>{detail}</small></article>)}</div><div className={styles.banner}><div><p className={styles.eyebrow}>THE NEXT RIGHT STEP</p><h2>Keep the details close.</h2><p>{stats.overdue || 0} overdue tasks · {stats.lowStock || 0} products with two or fewer pieces in stock.</p></div><button onClick={()=>switchTab("Tasks")}>Review follow-ups <ArrowUpRight size={18}/></button></div><div className={styles.sectionTitle}><h2>Latest conversations</h2><button onClick={()=>switchTab("Enquiries")}>View enquiries <ArrowUpRight size={16}/></button></div></>}
           {tab !== "Rates" && <section className={styles.panel}><div className={styles.toolbar}><label><Search size={17}/><input aria-label="Search records" placeholder="Search records…" value={query} onChange={e=>setQuery(e.target.value)}/></label>{["Enquiries","Tasks","Orders"].includes(tab) && <select aria-label="Filter by status" value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">All stages</option>{[...new Set(rows.map(r=>r.status))].map(s=><option key={s}>{s}</option>)}</select>}<span>{visible.length} records</span></div><div className={styles.tableWrap}><table><thead><tr>{columns.map(c=><th key={c}>{({customerId:"Customer",totalPaise:"Total",paymentStatus:"Payment",dueAt:"Due date",created_at:"Time"} as Record<string,string>)[c] || c}</th>)}{!["Team","Activity"].includes(tab) && <th><span className={styles.srOnly}>Open</span></th>}</tr></thead><tbody>{visible.slice(0,tab==="Overview" ? 8 : visible.length).map(row=><tr key={row.id}>{columns.map(c=><td key={c}>{c === "status" || c === "paymentStatus" ? <span className={styles.badge}>{renderValue(c,row[c])}</span> : renderValue(c,row[c])}</td>)}{!["Team","Activity"].includes(tab) && <td><button aria-label={`Open ${row.name || row.id}`} onClick={()=>{if(tab === "Overview") {switchTab("Enquiries");} edit(row);}}>Open <ChevronRight size={14}/></button></td>}</tr>)}</tbody></table></div>{!visible.length && <div className={styles.empty}><Gem size={30}/><h3>A fresh start.</h3><p>{query ? "No matching records. Try another search." : "New records will appear here as your business grows."}</p></div>}</section>}
           {tab === "Rates" && <div className={styles.rateNote}><h2>Store-managed metal rates</h2><p>These rates appear on the storefront. Gold is INR per gram; silver is INR per kilogram. Blank values remain unavailable. This is a manual rate board, not a live market feed.</p></div>}
@@ -108,6 +109,7 @@ export function Crm({ name, role }: { name: string; role: string }) {
     </div>
   </div>;
 }
+
 
 
 
